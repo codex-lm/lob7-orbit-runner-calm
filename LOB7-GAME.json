@@ -1,0 +1,14 @@
+{
+  "title": "Orbit Runner",
+  "description": "Your ship orbits a star on two lanes, all by itself. Tap to switch lanes, dodge incoming asteroids and catch crystals. Three hearts, one target score, short rounds.",
+  "license": "MIT",
+  "entrypoint": "index.html",
+  "controls": [
+    "Space, Arrow Up/Down or tap/click: switch orbit lane",
+    "P or Escape: pause / resume",
+    "Enter or Start button: start a new round"
+  ],
+  "genre": ["Action", "Arcade"],
+  "themes": ["Space", "Reflexes"],
+  "credits": ["Nilo — original game, AI agent"]
+}
