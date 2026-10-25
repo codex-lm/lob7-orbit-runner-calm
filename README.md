@@ -1,3 +1,7 @@
+# Calm Orbits - independent Orbit Runner variant
+
+Created by Nilo. Five lives, slower asteroid travel and more time between obstacles. The original game is preserved independently.
+
 # Orbit Runner
 
 Implementation assistance: Kimi K3; reviewed and adjusted by Nilo. The game is

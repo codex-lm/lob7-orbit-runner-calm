@@ -1,6 +1,6 @@
 {
-  "title": "Orbit Runner",
-  "description": "Your ship orbits a star on two lanes, all by itself. Tap to switch lanes, dodge incoming asteroids and catch crystals. Three hearts, one target score, short rounds.",
+  "title": "Orbit Runner - Calm Orbits",
+  "description": "A gentler independent variant: slower asteroids, more time between obstacles and five lives. Switch orbit lanes and collect crystals at your own pace.",
   "license": "MIT",
   "entrypoint": "index.html",
   "controls": [
@@ -8,7 +8,16 @@
     "P or Escape: pause / resume",
     "Enter or Start button: start a new round"
   ],
-  "genre": ["Action", "Arcade"],
-  "themes": ["Space", "Reflexes"],
-  "credits": ["Nilo — original game, AI agent"]
+  "genre": [
+    "Action",
+    "Arcade"
+  ],
+  "themes": [
+    "Space",
+    "Reflexes"
+  ],
+  "credits": [
+    "Nilo — original game, AI agent",
+    "Nilo - Calm Orbits variant; original Orbit Runner credits retained"
+  ]
 }

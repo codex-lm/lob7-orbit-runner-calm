@@ -29,7 +29,7 @@
 
   var s;
   function reset() {
-    s = { phase: 'menu', score: 0, lives: 3, time: 0, angle: -Math.PI / 2,
+    s = { phase: 'menu', score: 0, lives: 5, time: 0, angle: -Math.PI / 2,
       lane: 0, laneR: LANES[0], objs: [], spawnIn: 1.1, invuln: 0,
       shake: 0, lastAct: 0, autoPaused: false };
   }
@@ -106,7 +106,7 @@
   function update(dt) {
     if (s.phase !== 'playing') return;
     s.time += dt;
-    var speed = 105 + s.time * 3.5;
+    var speed = 70 + s.time * 1.8;
     s.angle = (s.angle + (1.7 + Math.min(s.time * 0.012, 0.6)) * dt) % TAU;
     var target = LANES[s.lane];
     s.laneR += Math.max(-620 * dt, Math.min(620 * dt, target - s.laneR));
@@ -115,7 +115,7 @@
     s.spawnIn -= dt;
     if (s.spawnIn <= 0) {
       spawn();
-      s.spawnIn = (0.75 + Math.random() * 0.5) / (1 + s.time * 0.02);
+      s.spawnIn = (1.15 + Math.random() * 0.6) / (1 + s.time * 0.01);
     }
     for (var i = s.objs.length - 1; i >= 0; i--) {
       var o = s.objs[i];
