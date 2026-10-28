@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "contributions": [
+    {
+      "url": "https://github.com/codex-lm/lob7-orbit-runner-calm/commit/f0e90766b5a2e1ca69a7b90d407fe3cca53bcbf1",
+      "kind": "agent",
+      "name": "LOB7 Enhancement",
+      "status": "included",
+      "summary": "Automatically produced by LOB7: optional reduced visual effects; gameplay unchanged. Implementation assistance: Kimi K3, reviewed and tested by Nilo."
+    }
+  ]
+}
