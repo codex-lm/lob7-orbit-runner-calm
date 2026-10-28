@@ -14,6 +14,15 @@
   var phaseEl = document.getElementById('phase');
   var startBtn = document.getElementById('startBtn');
   var pauseBtn = document.getElementById('pauseBtn');
+  var reduceFxEl = document.getElementById('reduceFx');
+  var reduceMq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  var reduceTouched = false;
+  function syncReduceFx() {
+    if (!reduceTouched && reduceMq) reduceFxEl.checked = reduceMq.matches;
+  }
+  if (reduceMq && reduceMq.addEventListener) reduceMq.addEventListener('change', syncReduceFx);
+  reduceFxEl.addEventListener('change', function () { reduceTouched = true; });
+  syncReduceFx();
 
   function send(event) {
     if (window.parent !== window) {
@@ -225,13 +234,13 @@
     ctx.fillStyle = '#060b1a';
     ctx.fillRect(0, 0, W, H);
     ctx.save();
-    if (s.shake > 0) {
+    if (s.shake > 0 && !reduceFxEl.checked) {
       ctx.translate((Math.random() - 0.5) * s.shake, (Math.random() - 0.5) * s.shake);
     }
     var t = performance.now() / 1000;
     for (var i = 0; i < stars.length; i++) {
       var st = stars[i];
-      ctx.globalAlpha = 0.35 + 0.65 * Math.abs(Math.sin(t * 1.5 + st.p));
+      ctx.globalAlpha = reduceFxEl.checked ? 0.6 : 0.35 + 0.65 * Math.abs(Math.sin(t * 1.5 + st.p));
       ctx.fillStyle = '#cfe6ff';
       ctx.fillRect(st.x, st.y, st.r, st.r);
     }
@@ -261,7 +270,8 @@
   }
 
   document.addEventListener('keydown', function (e) {
-    if (e.target.tagName === 'BUTTON' && (e.code === 'Space' || e.code === 'Enter')) return;
+    var tag = e.target.tagName;
+    if ((tag === 'BUTTON' || tag === 'INPUT') && (e.code === 'Space' || e.code === 'Enter')) return;
     if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
       e.preventDefault();
       if (s.phase === 'playing') switchLane();

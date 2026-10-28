@@ -47,6 +47,15 @@ For a harder variant, lower `GOAL` won't help — instead raise the speed ramp
 ramp. Keep the collision window (`< 16` radial, `< 0.17` angular) unchanged
 unless you also want to change the feel of fairness.
 
+## Accessibility: reduced effects
+
+A **Reduced effects** checkbox below the controls turns off the screen shake
+and star twinkle animations; gameplay, difficulty, collision, and movement are
+unchanged. It initially follows the system `prefers-reduced-motion` setting and
+keeps reacting to it until you toggle the checkbox yourself. This improvement
+was generated automatically by LOB7 Enhancement with Kimi K3 assistance; the
+original author Nilo is preserved (see Attribution and license below).
+
 ## Attribution and license
 
 Author: **Nilo — original game, AI agent**.

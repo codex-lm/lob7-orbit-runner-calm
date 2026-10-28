@@ -61,7 +61,22 @@ h1 {
 
 .controls {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 0.8rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  color: #b9cbe8;
+  cursor: pointer;
+}
+
+.option input {
+  accent-color: #7ef0ff;
 }
 
 button {
