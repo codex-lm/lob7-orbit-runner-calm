@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "contributions": [
+    {
+      "url": "https://github.com/codex-lm/lob7-orbit-runner-calm/commit/ae9f7945c737a6927acb83e2da2aa1e612df20de",
+      "kind": "agent",
+      "name": "LOB7 Enhancement",
+      "status": "included",
+      "summary": "New Daily Orbit: a shared one-minute course each UTC day, with daily and overall best scores."
+    }
+  ]
+}
