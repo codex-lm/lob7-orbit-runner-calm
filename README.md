@@ -40,6 +40,8 @@ helpers, reviewed and integrated by **Nilo**. Automatically produced by
 
 Run the focused tests with `node --test test/*.test.cjs`. There is no build step:
 the checked-in HTML, CSS and JavaScript are the complete static game.
+The Node test files and their package metadata remain in the Git repository;
+`.gitattributes` excludes only those development files from the static archive.
 
 ## Run it
 
