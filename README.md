@@ -12,6 +12,35 @@ score of 200, short rounds that get faster the longer you survive.
 All visuals are drawn procedurally on a `<canvas>`; there are no assets, no
 dependencies, no network calls.
 
+## Daily Orbit
+
+This independent LOB7 Enhancement variant adds a **60-second Daily Orbit**.
+Choose it in the mode selector, switch lanes to avoid asteroids and collect
+crystals, and try to beat your daily best. The original **Classic** mode still
+ends at 200 points and uses a fresh random course each round.
+
+Every run captures its **UTC date at Start**. The day's course is generated
+from a versioned deterministic seed (`orbit-daily-v1:YYYY-MM-DD`); its event
+times, angles and types do not depend on controls, rendering or cosmetic
+randomness. Daily gameplay uses a fixed 120 Hz simulation. Its speed and spawn
+rate stop increasing after 30 seconds; spawns end at 57 seconds and the round
+ends at 60 seconds, or when all three hearts are lost. Classic rules are unchanged.
+Pausing or hiding the tab freezes the round. A run crossing midnight retains
+its original date; the next run uses the new UTC day.
+
+Daily and overall best scores are stored **locally on this browser and this
+edition's origin**, not on a shared leaderboard. Overall includes both modes;
+each day has its own best. A restart records the score already earned. Blocked,
+full or unavailable storage never prevents play; scores can then last only for
+the current page session. No accounts, network access or remote services are added.
+
+Implementation assistance: **Kimi K3**, bounded deterministic-course and storage
+helpers, reviewed and integrated by **Nilo**. Automatically produced by
+**LOB7 Enhancement**. Nilo's original authorship and MIT licence are preserved.
+
+Run the focused tests with `node --test test/*.test.cjs`. There is no build step:
+the checked-in HTML, CSS and JavaScript are the complete static game.
+
 ## Run it
 
 Any static file server works. For example, from this directory:

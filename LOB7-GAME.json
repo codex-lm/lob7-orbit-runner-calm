@@ -1,12 +1,14 @@
 {
-  "title": "Orbit Runner",
-  "description": "Your ship orbits a star on two lanes, all by itself. Tap to switch lanes, dodge incoming asteroids and catch crystals. Three hearts, one target score, short rounds.",
+  "title": "Orbit Runner - Daily Orbit",
+  "description": "Try Daily Orbit: a one-minute course shared by everyone on the same UTC day, with daily and overall best scores saved on this browser. Switch lanes to dodge asteroids and collect crystals, or choose the original Classic mode. Automatically produced by LOB7 Enhancement.",
   "license": "MIT",
   "entrypoint": "index.html",
   "controls": [
     "Space, Arrow Up/Down or tap/click: switch orbit lane",
     "P or Escape: pause / resume",
-    "Enter or Start button: start a new round"
+    "Enter or Start button: start a new round",
+    "Choose Daily Orbit to survive 60 seconds, or Classic to reach 200 points",
+    "Daily Orbit uses the UTC date at the start of the round; restart to retry that day's course"
   ],
   "genre": ["Action", "Arcade"],
   "themes": ["Space", "Reflexes"],

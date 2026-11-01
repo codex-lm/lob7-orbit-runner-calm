@@ -9,6 +9,17 @@
 <body>
 <main class="shell">
   <h1>Orbit Runner</h1>
+  <label class="mode-picker" for="mode">Mode
+    <select id="mode">
+      <option value="daily">Daily Orbit · 60 seconds</option>
+      <option value="classic">Classic · 200 points</option>
+    </select>
+  </label>
+  <p class="hint" id="courseInfo"></p>
+  <div class="records" aria-label="Local best scores">
+    <span>Daily best: <strong id="dailyBest">0</strong></span>
+    <span>Best overall: <strong id="overallBest">0</strong></span>
+  </div>
   <div class="hud" aria-live="polite">
     <span class="hud-item">Score: <strong id="score">0</strong></span>
     <span class="hud-item">Lives: <strong id="lives">♥♥♥</strong></span>
@@ -22,9 +33,11 @@
   </div>
   <p class="hint" id="hint">
     Space, arrow keys or tap: switch orbit lane · P or Escape: pause ·
-    Dodge asteroids, collect crystals, reach the target score.
+    Dodge asteroids and collect crystals. Daily Orbit: survive 60 seconds.
+    Classic: reach 200 points. Best scores stay on this browser when storage is available.
   </p>
 </main>
+<script src="daily-orbit.js"></script>
 <script src="game.js"></script>
 </body>
 </html>

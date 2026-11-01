@@ -95,3 +95,28 @@ button:disabled {
   color: #8fa6c8;
   padding: 0 0.5rem;
 }
+
+.mode-picker, .records {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  max-width: 100%;
+}
+
+.mode-picker select {
+  max-width: 100%;
+  min-height: 44px;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  color: #e8f4ff;
+  background: #0e2138;
+  border: 1px solid #7ef0ff;
+  border-radius: 8px;
+}
+
+.mode-picker select:focus-visible { outline: 2px solid #ffd166; outline-offset: 3px; }
+.mode-picker select:disabled { opacity: 0.65; }
+.records { font-size: 0.9rem; color: #b9cbe8; }
+.records strong { color: #ffd166; }

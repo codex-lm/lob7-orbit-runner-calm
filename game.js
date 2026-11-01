@@ -14,6 +14,32 @@
   var phaseEl = document.getElementById('phase');
   var startBtn = document.getElementById('startBtn');
   var pauseBtn = document.getElementById('pauseBtn');
+  var modeEl = document.getElementById('mode');
+  var courseEl = document.getElementById('courseInfo');
+  var dailyBestEl = document.getElementById('dailyBest');
+  var overallBestEl = document.getElementById('overallBest');
+  var daily = window.OrbitDaily;
+  var storage = null;
+  try { storage = window.localStorage; } catch (_) { /* Storage is optional. */ }
+  var best = { overall: 0, daily: 0 };
+  var sessionDaily = Object.create(null);
+  var accumulator = 0;
+  var STEP = 1 / 120;
+
+  function loadBest() {
+    var saved = daily.readBest(storage, s.day);
+    best.overall = Math.max(best.overall, saved.overall);
+    best.daily = Math.max(sessionDaily[s.day] || 0, saved.daily);
+  }
+
+  function rememberScore() {
+    var saved = daily.recordBest(storage, s.mode === 'daily' ? s.day : null, s.score);
+    best.overall = Math.max(best.overall, saved.overall, s.score);
+    if (s.mode === 'daily') {
+      sessionDaily[s.day] = Math.max(best.daily, saved.daily, s.score);
+      best.daily = sessionDaily[s.day];
+    }
+  }
 
   function send(event) {
     if (window.parent !== window) {
@@ -29,17 +55,24 @@
 
   var s;
   function reset() {
+    var mode = modeEl.value === 'daily' ? 'daily' : 'classic';
+    var day = daily.utcDay();
     s = { phase: 'menu', score: 0, lives: 3, time: 0, angle: -Math.PI / 2,
       lane: 0, laneR: LANES[0], objs: [], spawnIn: 1.1, invuln: 0,
-      shake: 0, lastAct: 0, autoPaused: false };
+      shake: 0, lastAct: 0, autoPaused: false, mode: mode, day: day,
+      course: mode === 'daily' ? daily.buildCourse(day) : [], nextSpawn: 0 };
+    accumulator = 0;
+    loadBest();
   }
   reset();
 
   function phaseText() {
     if (s.phase === 'menu') return 'Ready — press Start';
-    if (s.phase === 'playing') return 'Running — reach ' + GOAL + ' points';
+    if (s.phase === 'playing') return s.mode === 'daily'
+      ? 'Daily Orbit — ' + Math.ceil(Math.max(0, daily.DURATION - s.time)) + 's left'
+      : 'Running — reach ' + GOAL + ' points';
     if (s.phase === 'paused') return 'Paused';
-    if (s.phase === 'win') return 'You win! Final score ' + s.score;
+    if (s.phase === 'win') return (s.mode === 'daily' ? 'Daily Orbit complete! Score ' : 'You win! Final score ') + s.score;
     return 'Game over — score ' + s.score;
   }
 
@@ -50,10 +83,17 @@
     startBtn.textContent = s.phase === 'menu' ? 'Start' : 'Restart';
     pauseBtn.textContent = s.phase === 'paused' ? 'Resume' : 'Pause';
     pauseBtn.disabled = s.phase !== 'playing' && s.phase !== 'paused';
+    modeEl.disabled = s.phase === 'playing' || s.phase === 'paused';
+    courseEl.textContent = s.mode === 'daily'
+      ? s.day + ' UTC · Same course for everyone on this UTC day.'
+      : 'Classic · Fresh random course each round · Reach 200 points.';
+    dailyBestEl.textContent = String(best.daily);
+    dailyBestEl.parentElement.hidden = s.mode !== 'daily';
+    overallBestEl.textContent = String(best.overall);
   }
 
   function startGame() {
-    if (s.phase === 'playing' || s.phase === 'paused') send('end');
+    if (s.phase === 'playing' || s.phase === 'paused') { rememberScore(); send('end'); }
     reset();
     s.phase = 'playing';
     syncDom();
@@ -80,6 +120,7 @@
 
   function endGame(win) {
     s.phase = win ? 'win' : 'over';
+    rememberScore();
     syncDom();
     send('end');
   }
@@ -105,17 +146,24 @@
 
   function update(dt) {
     if (s.phase !== 'playing') return;
-    s.time += dt;
-    var speed = 105 + s.time * 3.5;
+    s.time = s.mode === 'daily' ? Math.min(daily.DURATION, s.time + dt) : s.time + dt;
+    var speed = 105 + (s.mode === 'daily' ? Math.min(s.time, 30) : s.time) * 3.5;
     s.angle = (s.angle + (1.7 + Math.min(s.time * 0.012, 0.6)) * dt) % TAU;
     var target = LANES[s.lane];
     s.laneR += Math.max(-620 * dt, Math.min(620 * dt, target - s.laneR));
     if (s.invuln > 0) s.invuln -= dt;
     if (s.shake > 0) s.shake -= dt * 30;
-    s.spawnIn -= dt;
-    if (s.spawnIn <= 0) {
-      spawn();
-      s.spawnIn = (0.75 + Math.random() * 0.5) / (1 + s.time * 0.02);
+    if (s.mode === 'daily') {
+      while (s.nextSpawn < s.course.length && s.course[s.nextSpawn].at <= s.time + 1e-9) {
+        var event = s.course[s.nextSpawn++];
+        s.objs.push({ a: event.angle, r: 400, spin: event.spin, kind: event.kind, dodged: false });
+      }
+    } else {
+      s.spawnIn -= dt;
+      if (s.spawnIn <= 0) {
+        spawn();
+        s.spawnIn = (0.75 + Math.random() * 0.5) / (1 + s.time * 0.02);
+      }
     }
     for (var i = s.objs.length - 1; i >= 0; i--) {
       var o = s.objs[i];
@@ -140,7 +188,7 @@
       if (o.r < 46) s.objs.splice(i, 1);
     }
     if (s.lives <= 0) endGame(false);
-    else if (s.score >= GOAL) endGame(true);
+    else if (s.mode === 'daily' ? s.time >= daily.DURATION : s.score >= GOAL) endGame(true);
     syncDom();
   }
 
@@ -205,13 +253,14 @@
       ctx.font = '20px sans-serif';
       ctx.fillStyle = '#e8f4ff';
       ctx.fillText('Switch lanes. Dodge rocks. Catch crystals.', CX, CY + 10);
-      ctx.fillText('Press Start or Space to fly.', CX, CY + 42);
+      ctx.fillText(s.mode === 'daily' ? 'Daily Orbit: survive 60 seconds.' : 'Classic: reach 200 points.', CX, CY + 42);
+      ctx.fillText('Press Start or Space to fly.', CX, CY + 74);
     } else if (s.phase === 'paused') {
       ctx.font = 'bold 40px sans-serif';
       ctx.fillText('PAUSED', CX, CY);
     } else {
       ctx.font = 'bold 40px sans-serif';
-      ctx.fillText(s.phase === 'win' ? 'YOU WIN!' : 'GAME OVER', CX, CY - 20);
+      ctx.fillText(s.phase === 'win' ? (s.mode === 'daily' ? 'ORBIT COMPLETE!' : 'YOU WIN!') : 'GAME OVER', CX, CY - 20);
       ctx.font = '22px sans-serif';
       ctx.fillStyle = '#ffd166';
       ctx.fillText('Score: ' + s.score, CX, CY + 18);
@@ -261,6 +310,7 @@
   }
 
   document.addEventListener('keydown', function (e) {
+    if (['SELECT', 'INPUT', 'TEXTAREA'].indexOf(e.target.tagName) !== -1) return;
     if (e.target.tagName === 'BUTTON' && (e.code === 'Space' || e.code === 'Enter')) return;
     if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
       e.preventDefault();
@@ -279,6 +329,11 @@
     switchLane();
   });
   startBtn.addEventListener('click', startGame);
+  modeEl.addEventListener('change', function () {
+    if (s.phase === 'playing' || s.phase === 'paused') return;
+    reset();
+    syncDom();
+  });
   pauseBtn.addEventListener('click', function () {
     if (s.phase === 'playing') pauseGame(false);
     else resumeGame();
@@ -292,7 +347,17 @@
   function frame(now) {
     var dt = Math.min((now - last) / 1000, 0.05);
     last = now;
-    update(dt);
+    if (s.phase === 'menu' && s.day !== daily.utcDay()) { reset(); syncDom(); }
+    if (s.mode === 'daily' && s.phase === 'playing') {
+      accumulator += dt;
+      while (accumulator + 1e-12 >= STEP && s.phase === 'playing') {
+        update(STEP);
+        accumulator = Math.max(0, accumulator - STEP);
+      }
+    } else {
+      accumulator = 0;
+      update(dt);
+    }
     draw();
     requestAnimationFrame(frame);
   }
