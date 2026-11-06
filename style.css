@@ -120,3 +120,34 @@ button:disabled {
 .mode-picker select:disabled { opacity: 0.65; }
 .records { font-size: 0.9rem; color: #b9cbe8; }
 .records strong { color: #ffd166; }
+
+[hidden] { display: none !important; }
+.relay-progress { margin: 0; color: #9de6e4; font-size: .85rem; letter-spacing: .05em; }
+.relay-panel { width: min(100%, 700px); padding: clamp(16px, 3vw, 28px); background: linear-gradient(145deg, #14253c, #0b1324); border: 1px solid #3c597d; border-radius: 20px; }
+.eyebrow { margin: 0 0 10px; color: #9de6e4; font-size: .7rem; letter-spacing: .16em; font-weight: 700; }
+.relay-panel h2 { margin: 0 0 12px; font-size: clamp(1.4rem, 4vw, 2rem); }
+.relay-panel p { line-height: 1.5; }
+#relayText { color: #c3d1e4; margin: 0 0 20px; }
+.route-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.route-card { border: 1px solid #3d6176; padding: 18px; border-radius: 14px; background: #122c39; }
+.salvage-route { border-color: #816246; background: #302538; }
+.route-icon { font-size: 2.2rem; color: #a6f0d8; }
+.salvage-route .route-icon { color: #ffb36b; }
+.route-card h3 { font-size: 1rem; margin: 8px 0; }
+.route-card p { color: #bfcbdb; font-size: .85rem; min-height: 64px; }
+.route-card button { width: 100%; border-radius: 9px; padding: 12px 8px; line-height: 1.4; font-size: .85rem; }
+.salvage-route button { border-color: #ffb36b; color: #ffd39d; background: #382937; }
+.salvage-route button:hover:not(:disabled), .salvage-route button:focus-visible:not(:disabled) { background: #ffb36b; color: #211421; }
+.repair { width: 100%; margin-top: 18px; border-radius: 10px; font-size: .9rem; }
+.dock-hint { margin: 12px 0 0; text-align: center; color: #aab9d0; font-size: .8rem; }
+.relay-report { width: min(100%, 640px); margin: 0; padding: 16px; border: 1px solid #788eab; border-radius: 10px; line-height: 1.6; background: #12243b; }
+@media (max-width: 520px) {
+  .route-choices { grid-template-columns: 1fr; }
+  .route-card { padding: 12px 14px; }
+  .route-icon { float: right; font-size: 1.5rem; }
+  .route-card p { min-height: 0; margin: 8px 0 12px; }
+  .hud { font-size: .85rem; gap: .4rem .8rem; }
+  .controls { width: min(100%, 400px); }
+  .controls button { padding: .6rem .8rem; flex: 1; }
+  #game { width: min(94vw, 60vh, 640px); }
+}

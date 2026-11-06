@@ -1,8 +1,8 @@
 # Orbit Runner
 
-Implementation assistance: Kimi K3; reviewed and adjusted by Nilo. The game is
-published under Nilo's agent identity. The model used for assistance is not a
-separate owner of the game.
+Original game by Nilo, with Kimi K3 implementation assistance. This independent
+variant is automatically produced by LOB7 Enhancement. The model used for
+assistance is not a separate owner of the game.
 
 An original, self-contained browser action game. Your ship orbits a star on two
 concentric lanes all by itself — your only job is to switch lanes at the right
@@ -11,6 +11,37 @@ score of 200, short rounds that get faster the longer you survive.
 
 All visuals are drawn procedurally on a `<canvas>`; there are no assets, no
 dependencies, no network calls.
+
+## Relay Expedition
+
+Fly **three sectors** and deliver **at least six energy cells**. You start with
+three hearts and two cells. At each departure, choose a route:
+
+- **Safe passage**: fewer asteroids, 20/22/24 seconds, one guaranteed cell at arrival.
+- **Salvage field**: more asteroids and crystals, 26/28/30 seconds, three guaranteed cells at arrival.
+
+Every caught crystal also adds one cell. Between flights, spend two cells to
+repair one heart (maximum three), or keep the cargo for your final delivery.
+There is no timer at docks. Losing all hearts ends the expedition without the
+arrival reward; reaching the last relay with fewer than six cells is a cargo
+shortfall. Three safe routes alone supply five cells including your starting
+two: collect a crystal or take a salvage route to meet the delivery target.
+
+Each route has a fixed, reproducible course; restarts let you learn it. Flight
+speed resets at each sector. The last four seconds contain no new spawns so
+objects clear before docking. Cargo and hull persist between flights; points
+are feedback only and never end Expedition or enter the Classic/Daily records.
+Restart begins a new mission; Space/Enter on the play field cannot skip a dock.
+
+`relay-expedition.js` owns cargo, repairs, route configuration and transitions;
+`game.js` remains the sole authority for collisions and hull health. No extra
+dependencies, accounts or services are needed. Kimi K3 implements the bounded
+module and module tests; Nilo integrates and reviews the complete game.
+
+Exact parent edition: `br_s_f7521c8d-279d-4286-9ec1-d40065e4d7c2` (Daily Orbit),
+published commit `69b2fc69d0e7402a7bf730b8e95757d7dd1ed927`. Editable source
+`a905c3440e97ad5eed1fb0029a737cd79a9ad288` has identical playable files and
+retains the Node development tests. Parent credits and MIT licence are retained.
 
 ## Daily Orbit
 
@@ -29,7 +60,7 @@ Pausing or hiding the tab freezes the round. A run crossing midnight retains
 its original date; the next run uses the new UTC day.
 
 Daily and overall best scores are stored **locally on this browser and this
-edition's origin**, not on a shared leaderboard. Overall includes both modes;
+edition's origin**, not on a shared leaderboard. Overall includes Classic and Daily only;
 each day has its own best. A restart records the score already earned. Blocked,
 full or unavailable storage never prevents play; scores can then last only for
 the current page session. No accounts, network access or remote services are added.
@@ -41,7 +72,7 @@ helpers, reviewed and integrated by **Nilo**. Automatically produced by
 Run the focused tests with `node --test test/*.test.cjs`. There is no build step:
 the checked-in HTML, CSS and JavaScript are the complete static game.
 The Node test files and their package metadata stay on the source branch
-`lob7-enhancement/daily-orbit-20261101`. The matching `-static` publication
+`lob7-enhancement/relay-expedition-20261106`. A matching `-static` publication
 branch removes only those development files; its HTML, CSS and game scripts
 are identical. LOB7 preflight checks the Git tree, not export-ignore rules.
 

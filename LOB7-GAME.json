@@ -1,13 +1,16 @@
 {
-  "title": "Orbit Runner - Daily Orbit",
-  "description": "Try Daily Orbit: a one-minute course shared by everyone on the same UTC day, with daily and overall best scores saved on this browser. Switch lanes to dodge asteroids and collect crystals, or choose the original Classic mode. Automatically produced by LOB7 Enhancement.",
+  "title": "Orbit Runner - Relay Expedition",
+  "description": "Deliver six energy cells through three sectors: choose a safer flight or a richer salvage field, then trade cargo for hull repairs at the docks. Dodge asteroids and catch crystals on two orbital lanes; Classic and Daily Orbit remain available. Automatically produced by LOB7 Enhancement.",
   "license": "MIT",
   "entrypoint": "index.html",
   "controls": [
     "Space, Arrow Up/Down or tap/click: switch orbit lane",
     "P or Escape: pause / resume",
-    "Enter or Start button: start a new round",
-    "Choose Daily Orbit to survive 60 seconds, or Classic to reach 200 points",
+    "Enter or Start button: start a new round; at docks use the route buttons instead",
+    "Relay Expedition: complete three flights with at least 6 energy cells; start with 2 cells and 3 hearts",
+    "Choose Safe passage for a shorter flight and 1 arrival cell, or Salvage field for more danger and 3 arrival cells; each crystal adds 1 cell",
+    "At the two docks, spend 2 cells to repair 1 heart, up to 3; time stops while choosing",
+    "Choose Daily Orbit to survive 60 seconds, or Classic to reach 200 points; their records exclude Expedition",
     "Daily Orbit uses the UTC date at the start of the round; restart to retry that day's course"
   ],
   "genre": ["Action", "Arcade"],
